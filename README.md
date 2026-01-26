@@ -2,15 +2,7 @@
 
 A browser extension that warns you about items on Japanese Mercari that require payment on delivery or are handled by sellers.
 
-## Features
 
-- 🚨 Detects pay-on-delivery items (着払い / 代引き)
-- 📦 Detects seller-handled shipping items
-- 💬 Shows a prominent warning box on the right side of the page
-- ✖️ Easy-to-close warning with an X button
-- 📱 Responsive design for all screen sizes
-
-## Installation
 
 ### Chrome/Edge
 1. Clone or download this extension
@@ -39,16 +31,3 @@ When you visit a Mercari item page, the extension:
 - `manifest.json` - Extension configuration
 - `content.js` - Script that detects payment methods
 - `warning.css` - Styling for the warning box
-
-## Notes
-
-- The selectors and text patterns may need adjustment as Mercari updates their site
-- Currently works on both mercari.com and jp.mercari.com
-- Extension only runs on item pages (/item/*)
-
-## Future Improvements
-
-- [ ] Add options page to customize warning text
-- [ ] Add ability to filter by specific categories
-- [ ] Store user preferences locally
-- [ ] Add sound/notification alerts
