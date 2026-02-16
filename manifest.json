@@ -2,11 +2,7 @@
   "manifest_version": 3,
   "name": "Mercari Payment Warning",
   "version": "1.0.0",
-  "description": "Warns about pay-on-delivery and seller-handled items on Mercari",
-  "permissions": [
-    "scripting",
-    "activeTab"
-  ],
+  "description": "Warns about pay-on-delivery items on Mercari",
   "host_permissions": [
     "https://www.mercari.com/*",
     "https://jp.mercari.com/*",

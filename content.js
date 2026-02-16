@@ -1,11 +1,9 @@
-﻿// Content script that runs on Mercari item pages
-console.log('[Mercari Warning] Script loading...');
+﻿console.log('[Mercari Warning] Script loading...');
 
 (function() {
   console.log('[Mercari Warning] Extension started!');
   console.log('[Mercari Warning] Current URL:', window.location.href);
   
-  // Check if we're on a Mercari item page
   if (!window.location.pathname.includes('/item/')) {
     console.log('[Mercari Warning] Not on item page, pathname:', window.location.pathname);
     return;
@@ -17,22 +15,17 @@ console.log('[Mercari Warning] Script loading...');
     console.log('[Mercari Warning] Checking item delivery method...');
     
     const pageText = document.body.innerText;
+    const pageTextLower = pageText.toLowerCase();
     console.log('[Mercari Warning] Page text length:', pageText.length);
-
-    // Debug: Log all text to find the actual shipping info
-    console.log('[Mercari Warning] Full page text:', pageText);
     
-    // Check for pay-on-delivery indicators
-    // English: "Paid on delivery", "pay on delivery", "Payment on delivery"
-    // Japanese: ç€æ‰•ã„, ä»£å¼•ã, ä»£é‡‘å¼•æ›, ç€æ‰•ã„
-    const isPayOnDelivery = pageText.includes('ç€æ‰•ã„') || 
-                            pageText.includes('ä»£å¼•ã') ||
-                            pageText.includes('ä»£é‡‘å¼•æ›') ||
-                            pageText.toLowerCase().includes('paid on delivery') ||
-                            pageText.toLowerCase().includes('payment on delivery') ||
-                            pageText.toLowerCase().includes('pay on delivery') ||
-                            pageText.toLowerCase().includes('cash on delivery') ||
-                            pageText.toLowerCase().includes('cod') ||
+    const isPayOnDelivery = pageText.includes('着払い') || 
+                            pageText.includes('代引き') ||
+                            pageText.includes('代金引換') ||
+                            pageTextLower.includes('paid on delivery') ||
+                            pageTextLower.includes('payment on delivery') ||
+                            pageTextLower.includes('pay on delivery') ||
+                            pageTextLower.includes('cash on delivery') ||
+                            pageTextLower.includes('cod') ||
                             pageText.includes('Paid on delivery');
     
 
@@ -47,13 +40,11 @@ console.log('[Mercari Warning] Script loading...');
   }
 
   function showWarning(title, message) {
-    // Remove existing warning if present
     const existing = document.getElementById('mercari-warning-box');
     if (existing) {
       existing.remove();
     }
 
-    // Create warning box
     const warningBox = document.createElement('div');
     warningBox.id = 'mercari-warning-box';
     warningBox.className = 'mercari-warning';
@@ -68,36 +59,29 @@ console.log('[Mercari Warning] Script loading...');
       </div>
     `;
 
-    // Add to page
     document.body.appendChild(warningBox);
 
-    // Close button handler
     const closeBtn = warningBox.querySelector('.mercari-warning-close');
     closeBtn.addEventListener('click', function() {
       warningBox.remove();
     });
   }
 
-  // Use MutationObserver to watch for dynamic content loading
-  const observer = new MutationObserver(function(mutations) {
+  const observer = new MutationObserver(function() {
     const pageText = document.body.innerText;
-    // Check if shipping cost text exists (indicates item details loaded)
-    if (pageText.includes('Shipping cost') || pageText.includes('é…é€æ–™ã®è² æ‹…')) {
+    if (pageText.includes('Shipping cost') || pageText.includes('配送料の負担')) {
       console.log('[Mercari Warning] Item details detected, checking delivery method');
       checkItemDelivery();
-      // Stop observing after first check
       observer.disconnect();
     }
   });
 
-  // Start observing
   observer.observe(document.body, {
     childList: true,
     subtree: true,
     characterData: true
   });
 
-  // Fallback: check after delays
   setTimeout(function() {
     console.log('[Mercari Warning] Fallback check (2s)');
     checkItemDelivery();

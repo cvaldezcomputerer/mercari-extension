@@ -1,6 +1,6 @@
 # Mercari Payment Warning Extension
 
-A browser extension that warns you about items on Japanese Mercari that require payment on delivery or are handled by sellers.
+A browser extension that warns you about items on Mercari that require payment on delivery.
 
 
 
@@ -22,9 +22,8 @@ A browser extension that warns you about items on Japanese Mercari that require 
 
 When you visit a Mercari item page, the extension:
 1. Checks for payment method indicators (Japanese text: 着払い, 代引き)
-2. Checks for seller-handled shipping indicators
-3. Shows a warning box if either condition is found
-4. Lets you close the warning by clicking the X button
+2. Shows a warning box if a pay-on-delivery condition is found
+3. Lets you close the warning by clicking the X button
 
 ## Files
 
