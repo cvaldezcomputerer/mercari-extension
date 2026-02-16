@@ -14,15 +14,34 @@
   }
 
   console.log('[Mercari Warning] Extension loaded on item page');
+  let fallbackCheck2sId = null;
+  let fallbackCheck5sId = null;
+  let checksStopped = false;
+
+  function stopChecks(observer) {
+    if (checksStopped) {
+      return;
+    }
+
+    checksStopped = true;
+    observer.disconnect();
+    clearTimeout(fallbackCheck2sId);
+    clearTimeout(fallbackCheck5sId);
+  }
 
   function checkItemDelivery() {
+    if (checksStopped) {
+      return false;
+    }
+
     console.log('[Mercari Warning] Checking item delivery method...');
     
     const pageText = document.body.innerText;
     const pageTextLower = pageText.toLowerCase();
     console.log('[Mercari Warning] Page text length:', pageText.length);
     
-    const isPayOnDelivery = pageText.includes('着払い') || 
+    const isPayOnDelivery = pageText.includes('着払い(購入者負担)') ||
+                            pageText.includes('着払い') || 
                             pageText.includes('代引き') ||
                             pageText.includes('代金引換') ||
                             pageTextLower.includes('paid on delivery') ||
@@ -38,15 +57,17 @@
     if (isPayOnDelivery) {
       console.log('[Mercari Warning] Showing pay-on-delivery warning');
       showWarning(warningTitle, warningMessage);
+      return true;
     } else {
       console.log('[Mercari Warning] No payment method warning needed');
+      return false;
     }
   }
 
   function showWarning(title, message) {
     const existing = document.getElementById('mercari-warning-box');
     if (existing) {
-      existing.remove();
+      return;
     }
 
     const warningBox = document.createElement('div');
@@ -75,8 +96,11 @@
     const pageText = document.body.innerText;
     if (pageText.includes('Shipping cost') || pageText.includes('配送料の負担')) {
       console.log('[Mercari Warning] Item details detected, checking delivery method');
-      checkItemDelivery();
-      observer.disconnect();
+      if (checkItemDelivery()) {
+        stopChecks(observer);
+      } else {
+        observer.disconnect();
+      }
     }
   });
 
@@ -86,13 +110,17 @@
     characterData: true
   });
 
-  setTimeout(function() {
+  fallbackCheck2sId = setTimeout(function() {
     console.log('[Mercari Warning] Fallback check (2s)');
-    checkItemDelivery();
+    if (checkItemDelivery()) {
+      stopChecks(observer);
+    }
   }, 2000);
 
-  setTimeout(function() {
+  fallbackCheck5sId = setTimeout(function() {
     console.log('[Mercari Warning] Fallback check (5s)');
-    checkItemDelivery();
+    if (checkItemDelivery()) {
+      stopChecks(observer);
+    }
   }, 5000);
 })();

@@ -19,16 +19,14 @@
   },
   "default_locale": "en",
   "host_permissions": [
-    "https://www.mercari.com/*",
-    "https://jp.mercari.com/*",
-    "https://*.mercari.com/*"
+    "https://jp.mercari.com/item/*",
+    "https://jp.mercari.com/en/item/*"
   ],
   "content_scripts": [
     {
       "matches": [
-        "*://jp.mercari.com/*",
-        "*://www.mercari.com/*",
-        "*://*.mercari.com/*"
+        "https://jp.mercari.com/item/*",
+        "https://jp.mercari.com/en/item/*"
       ],
       "js": [
         "content.js"
