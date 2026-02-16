@@ -1,0 +1,17 @@
+{
+  "extensionName": {
+    "message": "Mercari Payment Warning"
+  },
+  "extensionDescription": {
+    "message": "Warns about pay-on-delivery items on Mercari"
+  },
+  "warningTitle": {
+    "message": "Pay on Delivery"
+  },
+  "warningMessage": {
+    "message": "This item is cash on delivery."
+  },
+  "closeWarningAriaLabel": {
+    "message": "Close warning"
+  }
+}

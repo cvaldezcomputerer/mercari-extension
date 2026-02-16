@@ -3,6 +3,10 @@
 (function() {
   console.log('[Mercari Warning] Extension started!');
   console.log('[Mercari Warning] Current URL:', window.location.href);
+
+  const warningTitle = chrome.i18n.getMessage('warningTitle') || 'Pay on Delivery';
+  const warningMessage = chrome.i18n.getMessage('warningMessage') || 'This item is cash on delivery.';
+  const closeWarningAriaLabel = chrome.i18n.getMessage('closeWarningAriaLabel') || 'Close warning';
   
   if (!window.location.pathname.includes('/item/')) {
     console.log('[Mercari Warning] Not on item page, pathname:', window.location.pathname);
@@ -33,7 +37,7 @@
 
     if (isPayOnDelivery) {
       console.log('[Mercari Warning] Showing pay-on-delivery warning');
-      showWarning('Pay on Delivery', 'この商品は着払いです。');
+      showWarning(warningTitle, warningMessage);
     } else {
       console.log('[Mercari Warning] No payment method warning needed');
     }
@@ -52,7 +56,7 @@
     warningBox.innerHTML = `
       <div class="mercari-warning-header">
         <span class="mercari-warning-title">${title}</span>
-        <button class="mercari-warning-close" aria-label="Close warning">×</button>
+        <button class="mercari-warning-close" aria-label="${closeWarningAriaLabel}">×</button>
       </div>
       <div class="mercari-warning-content">
         ${message}

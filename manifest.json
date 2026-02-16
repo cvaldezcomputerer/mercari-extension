@@ -1,8 +1,23 @@
 {
   "manifest_version": 3,
-  "name": "Mercari Payment Warning",
+  "name": "__MSG_extensionName__",
   "version": "1.0.0",
-  "description": "Warns about pay-on-delivery items on Mercari",
+  "description": "__MSG_extensionDescription__",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "default_locale": "en",
   "host_permissions": [
     "https://www.mercari.com/*",
     "https://jp.mercari.com/*",

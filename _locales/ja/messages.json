@@ -1,0 +1,17 @@
+{
+  "extensionName": {
+    "message": "メルカリ 着払い警告"
+  },
+  "extensionDescription": {
+    "message": "メルカリの着払い商品を警告表示します"
+  },
+  "warningTitle": {
+    "message": "着払い"
+  },
+  "warningMessage": {
+    "message": "この商品は着払いです。"
+  },
+  "closeWarningAriaLabel": {
+    "message": "警告を閉じる"
+  }
+}
